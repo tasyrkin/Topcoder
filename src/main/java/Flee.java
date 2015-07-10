@@ -1,6 +1,3 @@
-/**
- * Wrong solution
- */
 public class Flee {
     public double maximalSafetyLevel(int[] x, int[] y){
         if(x.length == 2){
@@ -9,6 +6,19 @@ public class Flee {
         if(x.length == 1){
             return dist(x[0], y[0]);
         }
+        int cnt = 0;
+        for(int i = 0; i < x.length; i++){
+          for(int j = i+1; j < x.length; j++){
+            if(x[i] != x[j] || y[i] != y[j]){
+              cnt++;
+            }
+          }
+        }
+        if(cnt < 3){
+          return Math.min(dist(x[0], y[0]), Math.min(dist(x[1], y[1]), dist(x[2], y[2])));
+        }
+
+
         if(!inTriangle(x[0], y[0], x[1], y[1], x[2], y[2])){
             return Math.min(Math.min(dist(x[0], y[0]), dist(x[1], y[1])), dist(x[2], y[2]));
         }
@@ -17,7 +27,9 @@ public class Flee {
         double d13 = dist(x[2]-x[0], y[2] - y[0]) / 2;
         double d23 = dist(x[1]-x[2], y[1] - y[2]) / 2;
 
-        return Math.max(d12, Math.max(d13, d23));
+        double start = Math.min(Math.min(dist(x[0], y[0]), dist(x[1], y[1])), dist(x[2], y[2]));
+
+        return Math.min(start, Math.max(d12, Math.max(d13, d23)));
     }
 
     double dist (int x, int y){
